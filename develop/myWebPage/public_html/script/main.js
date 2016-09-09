@@ -101,6 +101,7 @@ var directionalLight = new THREE.DirectionalLight (0x888888, 1);
 directionalLight.position.set(0, 2, 0);
 directionalLight.castShadow = true;
 directionalLight.shadow.camera.top = 12;
+directionalLight.shadow.camera.bottom = -6;
 directionalLight.shadow.camera.left = -12;
 directionalLight.shadow.camera.right = 10;
 directionalLight.shadowMapWidth = 1024;
@@ -113,25 +114,13 @@ scene.add(ambientLight);
 
 
 //===========================setObjects===========================
-//centerCube
-/*
-var centerCube = new THREE.Mesh( new THREE.CubeGeometry(0.3, 0.3, 0.3), new THREE.MeshPhongMaterial( {
+var centerCube = new THREE.Mesh( new THREE.CubeGeometry(0.1, 0.1, 0.1), new THREE.MeshPhongMaterial( {
     color: 0x00ff00 , ambient: 0xffffff,
     specular: 0xcccccc, shininess:50, metal: true
 } ) );
-centerCube.position.set(0, 0.3, 0);
+centerCube.position.set(-9, 0, 0);
 centerCube.castShadow = true;
 scene.add( centerCube );
-
-//centerSphere
-var centerCube = new THREE.Mesh( new THREE.SphereGeometry(0.3, 30, 30), new THREE.MeshPhongMaterial( {
-    color: 0x00ff00 , ambient: 0xffffff,
-    specular: 0xcccccc, shininess:10, metal: true
-} ) );
-centerCube.position.set(0, 0.3, 0);
-centerCube.castShadow = true;
-scene.add( centerCube );
-*/
 //backPlane
 var backPlane = new THREE.Mesh( new THREE.PlaneGeometry(20, 20, 1, 1), new THREE.MeshPhongMaterial( {
     color: 0xffffff, ambient: 0xffffff,
@@ -154,7 +143,7 @@ for(var i = 0; i < 9; i++) {
 }
 
 
-//fps method
+//fps
 var fpsCount = 0;
 var fpsTime = 0.0;
 var deltaTime = 0.0;
@@ -166,9 +155,17 @@ var cameraMoveY = 0.0;
 var mouseXRatio = 0.0;
 var mouseYRatio = 0.0;
 
-var movingLookAt = false;
-var lookAtDirect = Vector3(0, 0, 0);
+//lookAt moving triggers
+var movingLookAtTrigger = false;
+var lookAtDirect = new Vector3(0, 0, 0);
 
+//camera moving triggers
+var movingCameraTrigger = false;
+var movingCameraDirect = new Vector3(0, 0, 0);
+
+//camera fog moving triggers
+var movingCFogTrigger = false;
+var movingCFogDirect = camera.fog;
 
 
 function render() {
@@ -184,28 +181,43 @@ function render() {
         }
     }
     
-    //cameraMove
+    //-----------cameraMove-----------
+    //mouse move method
     var cameraX = camera.position.x;
     var cameraXDiff = mouseXRatio/20 - cameraMoveX;
     cameraMoveX += cameraXDiff*0.1;
     cameraX += cameraXDiff;
     camera.position.x = cameraX;
-    
     var cameraY = camera.position.y;
     var cameraYDiff = mouseYRatio/40 - cameraMoveY;
     cameraMoveY += cameraYDiff*0.1;
     cameraY += cameraYDiff;
     camera.position.y = cameraY;
     
-    if(movingLookAt) {
-        var diffx = (cameraLookAt.x + lookAtDirect.x)/2;
-        var diffy = (cameraLookAt.y + lookAtDirect.y)/2;
-        var diffz = (cameraLookAt.z + lookAtDirect.z)/2;
-        cameraLookAt.set(diffx, diffy, diffz);
+    //moving lookAt process
+    if(movingLookAtTrigger) {
+        var nextX = (cameraLookAt.x + lookAtDirect.x)/2;
+        var nextY = (cameraLookAt.y + lookAtDirect.y)/2;
+        var nextZ = (cameraLookAt.z + lookAtDirect.z)/2;
+        cameraLookAt.set(nextX, nextY, nextZ);
         camera.lookAt(cameraLookAt.getAsThreeVec());
-        console.log("cameraPos : " + cameraLookAt.x + ", " + cameraLookAt.y + ", " + cameraLookAt.z);
-        if(diffx < 0.001 && diffy < 0.001 && diffz < 0.001) {
-            movingLookAt = false;
+        //console.log("cameraDiff : " + abs(cameraLookAt.x-lookAtDirect.x) + ", " + abs(cameraLookAt.y-lookAtDirect.y) + ", " + abs(cameraLookAt.z-lookAtDirect.z));
+        if(abs(cameraLookAt.x-lookAtDirect.x) < 0.01 && abs(cameraLookAt.y-lookAtDirect.y) < 0.01 && abs(cameraLookAt.z-lookAtDirect.z) < 0.01) {
+            movingLookAtTrigger = false;
+        }
+    }
+    
+    //moving camera process
+    if(movingCameraTrigger) {
+        var nextX = (camera.position.x + movingCameraDirect.x)/2;
+        var nextY = (camera.position.y + movingCameraDirect.y)/2;
+        var nextZ = (camera.position.z + movingCameraDirect.z)/2;
+        camera.position.x = nextX;
+        camera.position.y = nextY;
+        camera.position.z = nextZ;
+        //console.log("cameraDiff: " + abs(camera.position.x - movingCameraDirect.x) + ", " + abs(camera.position.y - movingCameraDirect.y) + ", " + abs(camera.position.z - movingCameraDirect.z) + ", pos: " + camera.position.x + ", " + camera.position.y + ", " + camera.position.z);
+        if(abs(camera.position.x - movingCameraDirect.x) < 0.01 && abs(camera.position.y - movingCameraDirect.y) < 0.01 && abs(camera.position.z - movingCameraDirect.z) < 0.01) {
+            movingCameraTrigger = false;
         }
     }
     
@@ -271,11 +283,33 @@ document.onmousemove = function(e) {
 
 function cameraMove_lookAt(point) {
     if(point === 1) {
-        lookAtDirect = new Vector3(0, 0, 0);//new Vector3(-5, 9, 3);
-        movingLookAt = true;
+        lookAtDirect = new Vector3(-5, 1, 0);
+       movingLookAtTrigger = true;
+        
+        movingCameraDirect = new Vector3(15, 2, 0);
+        movingCameraTrigger = true;
+        
+        camera.fov = 20;
+        camera.updateProjectionMatrix();
     } else if(point === 2) {
-        lookAtDirect = new Vector3(1.2, -2, 0.1);//new Vector3(-5, 9, 3);
-        movingLookAt = true;
+        lookAtDirect = new Vector3(0, -3, 0);
+        movingLookAtTrigger = true;
+        
+        movingCameraDirect = new Vector3(-3, 7, 3);
+        movingCameraTrigger = true;
+        camera.rotation.x = 0;
+        camera.rotation.y = 0;
+        camera.rotation.z = 0;
+        camera.fov = 50;
+        camera.updateProjectionMatrix();
+    } else if(point === 3) {
+        lookAtDirect = new Vector3(1.2, -2, 0.1);
+        movingLookAtTrigger = true;
+        
+        movingCameraDirect = new Vector3(3, 1.5, 5);
+        movingCameraTrigger = true;
+        camera.fov = 50;
+        camera.updateProjectionMatrix();
     }
     
 }
@@ -287,4 +321,12 @@ function clickWork() {
 
 function clickAbout() {
     cameraMove_lookAt(2);
+}
+
+function clickTop() {
+    cameraMove_lookAt(3);
+}
+
+function abs(value) {
+    return value<0 ? -1*value : value;
 }
