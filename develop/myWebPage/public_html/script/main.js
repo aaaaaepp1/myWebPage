@@ -230,13 +230,13 @@ function calcFps() {
     fpsTime += deltaTime;
     if(fpsTime >= 0.5) {
         document.getElementById("showFPS").innerHTML = (fpsCount*2) + " fps";
-        /*
+        
         var fpsBar = ":";
         for(var i = 0; i < fpsCount; i++)
             fpsBar = fpsBar + "|";
         var inner = document.getElementById("fpsBar").innerHTML;
         document.getElementById("fpsBar").innerHTML = fpsBar + "<br>" + inner;
-        */
+        
         fpsTime = 0.0;
         fpsCount = 0;
     }
