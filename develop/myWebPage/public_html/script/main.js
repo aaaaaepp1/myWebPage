@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 
+//===========================init html===========================
+
+//===========================enum===========================
+
 
 //===========================classes===========================
 //Item class
@@ -167,6 +171,9 @@ var movingCameraDirect = new Vector3(0, 0, 0);
 var movingCFogTrigger = false;
 var movingCFogDirect = camera.fog;
 
+//current page
+var currentPage = 3; //first page is Top(top's page num is 3)
+
 
 function render() {
     calcFps();
@@ -230,13 +237,13 @@ function calcFps() {
     fpsTime += deltaTime;
     if(fpsTime >= 0.5) {
         document.getElementById("showFPS").innerHTML = (fpsCount*2) + " fps";
-        
+        /*
         var fpsBar = ":";
         for(var i = 0; i < fpsCount; i++)
             fpsBar = fpsBar + "|";
         var inner = document.getElementById("fpsBar").innerHTML;
         document.getElementById("fpsBar").innerHTML = fpsBar + "<br>" + inner;
-        
+        */
         fpsTime = 0.0;
         fpsCount = 0;
     }
@@ -252,14 +259,18 @@ function setContents() {
     document.getElementById("menu03").style.left = windowWidth - 350 + "px";
     
     //title_imgae
-    document.getElementById("title_image").style.left = windowWidth/2 - 250 + "px";
-    document.getElementById("title_image").style.top = windowHeight/2 - 100 + "px";
+    document.getElementById("title_image").style.left = windowWidth/2 - 253 + "px";
+    document.getElementById("title_image").style.top = windowHeight/2 - 125 + "px";
     
     //title
     document.getElementById("title").style.left = windowWidth/2 - 228 + "px";
     document.getElementById("title").style.top = windowHeight/2 + "px";
     
-    //camera.lookAt.x += 0.1;
+    //profile title
+    document.getElementById("profile_title").style.left = windowWidth / 2 - 170 + "px";
+    
+    //works title
+    document.getElementById("works_title").style.left = windowWidth / 2 - 150 + "px";
 }
 
 render();
@@ -314,17 +325,71 @@ function cameraMove_lookAt(point) {
     
 }
 
-
-function clickWork() {
-    cameraMove_lookAt(1);
+function foreground(color, speed, opacity) {
+    if(color === "white") {
+        console.log("change white");
+        document.getElementById("foreground_color").style.backgroundColor = color;
+        document.getElementById("foreground_dots").style.backgrounImage = 'url("../img/dots/dot_white.png")';
+        $("#foreground_color").fadeTo(speed, opacity);
+        $("#foreground_dots").fadeTo(speed, opacity === 0.0 ? 0.0 : 1.0);
+    }
 }
 
-function clickAbout() {
-    cameraMove_lookAt(2);
+function titleManager(current) {
+    $("#profile_title").animate({"top": -100}, 200, "easeOutQuart");
+    $("#works_title").animate({"top": -100}, 200, "easeOutQuart");
+    //show title
+    if(current === 2) $("#profile_title").animate({"top": 60}, 700, "easeInOutBack");
+    if(current === 1) $("#works_title").animate({"top": 60}, 700, "easeInOutBack");
+}
+
+
+function clickWorks() {
+    if(currentPage !== 1) {
+        currentPage = 1;
+        cameraMove_lookAt(currentPage);
+
+        //change alpha of title
+        $("#title, #title_image").fadeTo(1000, 0);
+
+        //show foreground color as white
+        foreground("white", 500, 0.5);
+
+        //title process
+        titleManager(currentPage);
+    }
+}
+
+function clickProfile() {
+    if(currentPage !== 2) {
+        currentPage = 2;
+        cameraMove_lookAt(currentPage);
+
+        //change alpha of title
+        $("#title, #title_image").fadeTo(1000, 0);
+
+        //show foreground color as white
+        foreground("white", 500, 0.5);
+
+        //title process
+        titleManager(currentPage);
+    }
 }
 
 function clickTop() {
-    cameraMove_lookAt(3);
+    if(currentPage !== 3) {
+        currentPage = 3;
+        cameraMove_lookAt(currentPage);
+
+        //change alpha of title
+        $("#title, #title_image").fadeTo(1000, 1.0);
+
+        //show foreground color as white
+        foreground("white", 500, 0);
+
+        //title process
+        titleManager(currentPage);
+    }
 }
 
 function abs(value) {
