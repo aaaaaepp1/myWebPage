@@ -1,13 +1,21 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
 /* 
     Created on : 2016/09/07, 0:14:49
-    Author     : okamotonaoki
+    Author     : Okamoto Naoki
 */
 
+#loadingPage {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: #96bc62;
+    font-family: 'Poiret One', cursive;
+    color: #323232;
+    font-size: 50px;
+    opacity: 1;
+    z-index: 100000;
+}
 
 #showFPS {
     position: fixed;
@@ -39,6 +47,7 @@ and open the template in the editor.
     list-style: none;
     
     -webkit-transform: color 0.6s;
+    cursor: pointer;
 }
 #menu01:hover {
     color: #d0d0d0;
@@ -83,6 +92,7 @@ and open the template in the editor.
     list-style: none;
     
     -webkit-transform: color 0.6s;
+    cursor: pointer;
 }
 #menu02:hover {
     color: #d0d0d0;
@@ -124,6 +134,7 @@ and open the template in the editor.
     z-index: 11;
     position: fixed;
     list-style: none;
+    cursor: pointer;
     
     -webkit-transform: color 0.6s;
 }
@@ -152,6 +163,18 @@ and open the template in the editor.
     opacity: 1.0;
     -webkit-transform: translateY(0);
     transform: translateY(0);
+}
+
+#top_twitterIcon {
+    background-image: url("../img/other/Twitter_Social_Icon_Circle_Green.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: fixed;
+    left: -100px;
+    top: 30px;
+    width: 30px;
+    height: 30px;
+    z-index: 11;
 }
 
 #title_image {
@@ -209,9 +232,59 @@ and open the template in the editor.
     font-family: 'Poiret One', cursive;
     color: #96bc62;
     left: -1000px;
-    top: -100px;//;60px;
+    top: -150px;//;60px;
     //opacity: 0;
     z-index: 20;
+}
+
+#profile_titleImg1 {
+    background-image: url("../img/other/studio.png");
+    width: 293px;
+    height: 639px;
+    position: absolute;
+    top: -1000px;
+    left: 0px;
+    z-index: 20;
+}
+
+#profile_contents {
+    //background-color: rgba(50, 90, 200, 0.1);
+    position: absolute;
+    width: 600px;
+    height: 1000px;
+    top: 190px;
+    left: 3000px;
+    z-index: 21;
+}
+#profile_contents h1{
+    position: relative;
+    top: -20px;
+    font-size: 30px;
+    color: #96bc62;
+    font-family: 'Poiret One', cursive;
+}
+#profile_contents h2{
+    font-size: 43px;
+    color: #4b4b4b;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-weight: 100;
+}
+#profile_contents h3{
+    position: relative;
+    top: -40px;
+    font-size: 25px;
+    color: #4b4b4b;
+    font-family: 'Poiret One', cursive;
+    font-weight: 100;
+}
+#profile_contents a{
+    position: relative;
+    top: -40px;
+    left: 15px;
+    font-size: 15px;
+    color: #4b4b4b;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-weight: 200;
 }
 
 #works_title {
@@ -220,7 +293,7 @@ and open the template in the editor.
     font-family: 'Poiret One', cursive;
     color: #96bc62;
     left: -1000px;
-    top: -100px;//;60px;
+    top: -150px;//;60px;
     //opacity: 0;
     z-index: 20;
 }

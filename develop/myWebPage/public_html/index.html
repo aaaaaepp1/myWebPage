@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
+Copyright © 2016 Okamoto Naoki All Rights Reserved.
+2016/09/12
+
+Thank you for watching source cord!
 -->
 <html>
     <head>
-        <title>myWebPage</title>
+        <title>OkamotoNaoki Portfolio</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/main.css" rel="stylesheet" type="text/css"/>
@@ -15,6 +16,7 @@ and open the template in the editor.
         <link href="https://fonts.googleapis.com/css?family=Dosis|Pacifico|Poiret+One" rel="stylesheet">
         <script src="script/jQuery/jquery-3.1.0.min.js" type="text/javascript"></script>
         <script src="script/jQuery/jquery.easing.1.3.js" type="text/javascript"></script>
+        <style>@import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css);</style>
         <style>
             body {
                 margin: 0; 
@@ -31,6 +33,9 @@ and open the template in the editor.
     </head>
     <body>
         
+        <!-- loadingPage -->
+        <div id="loadingPage">now loading...</div>
+        
         <!-- foreground -->
         <div id="foreground_dots"></div>
         <div id="foreground_color"></div>
@@ -38,7 +43,17 @@ and open the template in the editor.
         
         <!-- Profile -->
         <div id="profile_title">Profile</div>
-        
+        <div id="profile_titleImg1"></div>
+        <div id="profile_contents">
+            <h2>岡本　直樹</h2>
+            <h3>Naoki Okamoto</h3>
+            
+            <h1>About me</h1>
+            <a>
+                I'm a graphic and web designer, video creator and programmer from Japan.<br>
+                Also I'm studying a computer science in the Kyoto Sangyo University...
+            </a>
+        </div>
         
         <!-- works -->
         <div id="works_title">Works</div>
@@ -59,28 +74,55 @@ and open the template in the editor.
                 <a>Works</a>
             </div>
         </div>
-        <div id="title">WebDesign / Programing / Video Creator</div>
-        <div id="title_image">&nbsp;</div>
         
+        <!-- SNS Links -->
+        <a href="https://twitter.com/aaaaaepp1" id="top_twitterIcon" target="_blank"></a>
+        
+        <!-- title -->
+        <div id="title">WebDesign / Programing / 3DCG / Video Creator</div>
+        <div id="title_image">&nbsp;</div>
+        <div style="
+             position: fixed;
+             left: 10px;
+             top: 30px;
+             background-color: rgba(255, 255, 255, 0.8);
+             font-family: 'Noto Sans Japanese', sans-serif;
+             font-size: 15px;
+             font-weight: 100;
+             ">
+            =====EN=====<br>
+            Thank you for visiting my portfolio!<br>
+            This page is during the creation. Please note it has something wrong.<br>
+            But please Enjoy my Page!!<br>
+            Naoki.<br>
+            <br>
+            =====JP=====<br>
+            ポートフォリオにアクセスしてくださりありがとうございます！<br>
+            このページはただいま開発中ですので、ところどころおかしい点があるかもしれませんが、ご了承ください。<br>
+            岡本
+        </div>
+        
+        <!-- fps bar -->
         <div id="showFPS">0 fps</div>
         <div id="fpsBar">:</div>
-        
-        <script>
-            /*
-            var element = document.createElement('div'); 
-            element.id = "id"; 
-            element.innerHTML = "hogehoge"; 
-            element.style.backgroundColor = 'red'; 
-
-            var objBody = document.getElementsByTagName("body").item(0); 
-            objBody.appendChild(element); 
-            // body要素にdivエレメントを追加 
-            */
-        </script>
         
         
         <script src="script/three/three.js" type="text/javascript"></script>
         <script src="script/main.js" type="text/javascript"></script>
+        
+        <!-- fade out loading page -->
+        <script> 
+            $(function() {
+                setTimeout(function() {
+                    $("#loadingPage").fadeTo(1000, 0);
+                }, 500);
+            });
+            $(function() {
+                setTimeout(function() {
+                    document.getElementById("loadingPage").style.left = window.innerWidth + "px";
+                }, 1500);
+            });
+        </script>
         
     </body>
 </html>

@@ -1,8 +1,7 @@
 /* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    Created on : 2016/09/07, 0:14:49
+    Author     : Okamoto Naoki
+*/
 
 //===========================init html===========================
 
@@ -105,7 +104,7 @@ var directionalLight = new THREE.DirectionalLight (0x888888, 1);
 directionalLight.position.set(0, 2, 0);
 directionalLight.castShadow = true;
 directionalLight.shadow.camera.top = 12;
-directionalLight.shadow.camera.bottom = -6;
+directionalLight.shadow.camera.bottom = -10;
 directionalLight.shadow.camera.left = -12;
 directionalLight.shadow.camera.right = 10;
 directionalLight.shadowMapWidth = 1024;
@@ -118,6 +117,7 @@ scene.add(ambientLight);
 
 
 //===========================setObjects===========================
+/*
 var centerCube = new THREE.Mesh( new THREE.CubeGeometry(0.1, 0.1, 0.1), new THREE.MeshPhongMaterial( {
     color: 0x00ff00 , ambient: 0xffffff,
     specular: 0xcccccc, shininess:50, metal: true
@@ -125,6 +125,7 @@ var centerCube = new THREE.Mesh( new THREE.CubeGeometry(0.1, 0.1, 0.1), new THRE
 centerCube.position.set(-9, 0, 0);
 centerCube.castShadow = true;
 scene.add( centerCube );
+*/
 //backPlane
 var backPlane = new THREE.Mesh( new THREE.PlaneGeometry(20, 20, 1, 1), new THREE.MeshPhongMaterial( {
     color: 0xffffff, ambient: 0xffffff,
@@ -136,7 +137,7 @@ backPlane.receiveShadow = true;
 scene.add(backPlane);
 
 //items
-var colors = ['#A59FC9', '#A6D3CE', '#A6BC8A', '#D3C2A1', '#C99E9F', 'dddddd'];
+var colors = ['#5BC8DB', '#52E593', '#78CF4B', '#E5DC58', '#DBB25D', 'dddddd'];
 var items = new Array();
 for(var i = 0; i < 9; i++) {
     items[i] = new Array();
@@ -190,16 +191,18 @@ function render() {
     
     //-----------cameraMove-----------
     //mouse move method
-    var cameraX = camera.position.x;
-    var cameraXDiff = mouseXRatio/20 - cameraMoveX;
-    cameraMoveX += cameraXDiff*0.1;
-    cameraX += cameraXDiff;
-    camera.position.x = cameraX;
-    var cameraY = camera.position.y;
-    var cameraYDiff = mouseYRatio/40 - cameraMoveY;
-    cameraMoveY += cameraYDiff*0.1;
-    cameraY += cameraYDiff;
-    camera.position.y = cameraY;
+    if(currentPage === 3) {
+        var cameraX = camera.position.x;
+        var cameraXDiff = mouseXRatio/20 - cameraMoveX;
+        cameraMoveX += cameraXDiff*0.1;
+        cameraX += cameraXDiff;
+        camera.position.x = cameraX;
+        var cameraY = camera.position.y;
+        var cameraYDiff = mouseYRatio/40 - cameraMoveY;
+        cameraMoveY += cameraYDiff*0.1;
+        cameraY += cameraYDiff;
+        camera.position.y = cameraY;
+    }
     
     //moving lookAt process
     if(movingLookAtTrigger) {
@@ -257,6 +260,7 @@ function setContents() {
     document.getElementById("menu01").style.left = windowWidth - 150 + "px";
     document.getElementById("menu02").style.left = windowWidth - 250 + "px";
     document.getElementById("menu03").style.left = windowWidth - 350 + "px";
+    document.getElementById("top_twitterIcon").style.left = windowWidth - 400 + "px";
     
     //title_imgae
     document.getElementById("title_image").style.left = windowWidth/2 - 253 + "px";
@@ -266,8 +270,12 @@ function setContents() {
     document.getElementById("title").style.left = windowWidth/2 - 228 + "px";
     document.getElementById("title").style.top = windowHeight/2 + "px";
     
-    //profile title
+    //profile
     document.getElementById("profile_title").style.left = windowWidth / 2 - 170 + "px";
+    document.getElementById("profile_titleImg1").style.left = windowWidth / 2 - 500 + "px";
+    if(currentPage === 2) document.getElementById("profile_contents").style.left = windowWidth / 2 - 170 + "px";
+    
+    //#profile_contents
     
     //works title
     document.getElementById("works_title").style.left = windowWidth / 2 - 150 + "px";
@@ -335,12 +343,30 @@ function foreground(color, speed, opacity) {
     }
 }
 
+function showProfile(value) {
+    var windowWidth = window.innerWidth;
+    if(value) {
+        $("#profile_title").animate({"top": 60}, 700, "easeInOutBack");
+        $("#profile_titleImg1").animate({"top": 0}, 1000, "easeOutQuint");
+        $("#profile_contents").animate({"left": windowWidth / 2 - 170}, 1000, "easeOutQuint");
+    } else {
+        $("#profile_title").animate({"top": -150}, 200, "easeOutQuart");
+        $("#profile_titleImg1").animate({"top": -800}, 200, "easeOutQuart");
+        $("#profile_contents").animate({"left": windowWidth+1000}, 1000, "easeOutQuint");
+    }
+}
+
+function showWorks(value) {
+    if(value) {
+        $("#works_title").animate({"top": 60}, 700, "easeInOutBack");
+    } else {
+        $("#works_title").animate({"top": -150}, 200, "easeOutQuart");
+    }
+}
+
 function titleManager(current) {
-    $("#profile_title").animate({"top": -100}, 200, "easeOutQuart");
-    $("#works_title").animate({"top": -100}, 200, "easeOutQuart");
-    //show title
-    if(current === 2) $("#profile_title").animate({"top": 60}, 700, "easeInOutBack");
-    if(current === 1) $("#works_title").animate({"top": 60}, 700, "easeInOutBack");
+    showProfile(current === 2);
+    showWorks(current === 1);
 }
 
 
@@ -353,7 +379,7 @@ function clickWorks() {
         $("#title, #title_image").fadeTo(1000, 0);
 
         //show foreground color as white
-        foreground("white", 500, 0.5);
+        foreground("white", 500, 0.8);
 
         //title process
         titleManager(currentPage);
@@ -369,7 +395,7 @@ function clickProfile() {
         $("#title, #title_image").fadeTo(1000, 0);
 
         //show foreground color as white
-        foreground("white", 500, 0.5);
+        foreground("white", 500, 0.8);
 
         //title process
         titleManager(currentPage);
