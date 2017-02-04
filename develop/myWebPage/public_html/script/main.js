@@ -6,7 +6,15 @@
 //===========================init html===========================
 
 //===========================enum===========================
+var PAGE_MODE = {
+    PC_NORMAL : 0,
+    PC_WIDE : 1,
+    SmartPhone : 2
+};
+var PageMode = PAGE_MODE.PC_NORMAL;
 
+
+var RENDER_MODE = true;
 
 //===========================classes===========================
 //Item class
@@ -86,7 +94,7 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 renderer.shadowMapEnabled = true;
 renderer.shadowMapSoft = true;
 renderer.shadowMapType = THREE.PCFShadowMap;
-document.body.appendChild( renderer.domElement );
+if(RENDER_MODE) document.body.appendChild( renderer.domElement );
 
 
 //===========================lights===========================
@@ -211,8 +219,11 @@ function render() {
         var nextZ = (cameraLookAt.z + lookAtDirect.z)/2;
         cameraLookAt.set(nextX, nextY, nextZ);
         camera.lookAt(cameraLookAt.getAsThreeVec());
-        //console.log("cameraDiff : " + abs(cameraLookAt.x-lookAtDirect.x) + ", " + abs(cameraLookAt.y-lookAtDirect.y) + ", " + abs(cameraLookAt.z-lookAtDirect.z));
-        if(abs(cameraLookAt.x-lookAtDirect.x) < 0.01 && abs(cameraLookAt.y-lookAtDirect.y) < 0.01 && abs(cameraLookAt.z-lookAtDirect.z) < 0.01) {
+        //console.log("cameraDiff : " + abs(cameraLookAt.x-lookAtDirect.x) + ", " + 
+        //abs(cameraLookAt.y-lookAtDirect.y) + ", " + abs(cameraLookAt.z-lookAtDirect.z));
+        if(abs(cameraLookAt.x-lookAtDirect.x) < 0.01 && 
+                abs(cameraLookAt.y-lookAtDirect.y) < 0.01 && 
+                abs(cameraLookAt.z-lookAtDirect.z) < 0.01) {
             movingLookAtTrigger = false;
         }
     }
@@ -225,8 +236,14 @@ function render() {
         camera.position.x = nextX;
         camera.position.y = nextY;
         camera.position.z = nextZ;
-        //console.log("cameraDiff: " + abs(camera.position.x - movingCameraDirect.x) + ", " + abs(camera.position.y - movingCameraDirect.y) + ", " + abs(camera.position.z - movingCameraDirect.z) + ", pos: " + camera.position.x + ", " + camera.position.y + ", " + camera.position.z);
-        if(abs(camera.position.x - movingCameraDirect.x) < 0.01 && abs(camera.position.y - movingCameraDirect.y) < 0.01 && abs(camera.position.z - movingCameraDirect.z) < 0.01) {
+        //console.log("cameraDiff: " + abs(camera.position.x - movingCameraDirect.x) + 
+        //", " + abs(camera.position.y - movingCameraDirect.y) + ", " + 
+        //abs(camera.position.z - movingCameraDirect.z) + ", pos: " + 
+        //camera.position.x + ", " + camera.position.y + ", " + 
+        //camera.position.z);
+        if(abs(camera.position.x - movingCameraDirect.x) < 0.01 && 
+                abs(camera.position.y - movingCameraDirect.y) < 0.01 && 
+                abs(camera.position.z - movingCameraDirect.z) < 0.01) {
             movingCameraTrigger = false;
         }
     }
@@ -277,17 +294,28 @@ function setContents() {
     
     //#profile_contents
     
-    //works title
-    document.getElementById("works_title").style.left = windowWidth / 2 - 150 + "px";
+    //product title
+    document.getElementById("product_title").style.left = windowWidth / 2 - 150 + "px";
+    document.getElementById("product_titleImg1").style.left = windowWidth / 2 - 500 + "px";
+    if(currentPage === 1) document.getElementById("product_contents").style.left = windowWidth / 2 - 170 + "px";
+    
+    if(currentPage !== 1) {
+        document.getElementById("product_discriptionPage").style.left = windowWidth + 1000;
+        document.getElementById("product_discriptionPageClose").style.left = windowWidth + 1000;
+    }
+    
 }
 
-render();
+if(RENDER_MODE) render();
 
 window.onresize = function() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
     setContents();
+    
+    //methods for product page
+    product_readjustment();
 };
 
 document.onmousemove = function(e) {
@@ -300,10 +328,19 @@ document.onmousemove = function(e) {
     //console.log(xRatio + " - " + YRatio);
 };
 
+function setScrollMoment() {
+    if(currentPage === 1) {
+        window.scrollY = 2000;
+    }
+    else if(currentPage === 2) {
+        window.scrollMaxY = 1000;
+    }
+}
+
 function cameraMove_lookAt(point) {
     if(point === 1) {
         lookAtDirect = new Vector3(-5, 1, 0);
-       movingLookAtTrigger = true;
+        movingLookAtTrigger = true;
         
         movingCameraDirect = new Vector3(15, 2, 0);
         movingCameraTrigger = true;
@@ -335,7 +372,7 @@ function cameraMove_lookAt(point) {
 
 function foreground(color, speed, opacity) {
     if(color === "white") {
-        console.log("change white");
+        //console.log("change white");
         document.getElementById("foreground_color").style.backgroundColor = color;
         document.getElementById("foreground_dots").style.backgrounImage = 'url("../img/dots/dot_white.png")';
         $("#foreground_color").fadeTo(speed, opacity);
@@ -356,21 +393,42 @@ function showProfile(value) {
     }
 }
 
-function showWorks(value) {
+function showProduct(value) {
+    var windowWidth = window.innerWidth;
     if(value) {
-        $("#works_title").animate({"top": 60}, 700, "easeInOutBack");
+        $("#product_title").animate({"top": 60}, 700, "easeInOutBack");
+        $("#product_titleImg1").animate({"top": 0}, 1000, "easeOutQuint");
+        $("#product_contents").animate({"left": windowWidth / 2 - 170}, 1000, "easeOutQuint");
+        console.log("moved to product");
     } else {
-        $("#works_title").animate({"top": -150}, 200, "easeOutQuart");
+        $("#product_title").animate({"top": -150}, 200, "easeOutQuart");
+        $("#product_titleImg1").animate({"top": -800}, 200, "easeOutQuart");
+        $("#product_contents").animate({"left": windowWidth+1000}, 1000, "easeOutQuint");
+        showProductDiscription(false, "");
+    }
+}
+
+function showProductDiscription(value, url) {
+    var windowWidth = window.innerWidth;
+    if(value) {
+        document.getElementById("product_discriptionPage").src = url;
+        $("#product_discriptionPage").animate({"left": windowWidth * 0.3}, 1000, "easeOutQuint");
+        $("#product_discriptionPageClose").animate({"left": 0}, 1000, "easeOutQuint");
+    } else {
+        $("#product_discriptionPage").animate({"left": windowWidth+1000}, 1000, "easeOutQuint");
+        $("#product_discriptionPageClose").animate({"left": windowWidth+1000}, 1000, "easeOutQuint");
     }
 }
 
 function titleManager(current) {
     showProfile(current === 2);
-    showWorks(current === 1);
+    showProduct(current === 1);
+    
+    setScrollMoment();
 }
 
 
-function clickWorks() {
+function clickProduct() {
     if(currentPage !== 1) {
         currentPage = 1;
         cameraMove_lookAt(currentPage);

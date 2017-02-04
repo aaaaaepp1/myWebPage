@@ -42,7 +42,7 @@
     font-size: 20px;
     left: -100px;
     top: 30px;
-    z-index: 11;
+    z-index: 100;
     position: fixed;
     list-style: none;
     
@@ -87,7 +87,7 @@
     font-size: 20px;
     left: -100px;
     top: 30px;
-    z-index: 11;
+    z-index: 100;
     position: fixed;
     list-style: none;
     
@@ -131,7 +131,7 @@
     font-size: 20px;
     left: -100px;
     top: 30px;
-    z-index: 11;
+    z-index: 100;
     position: fixed;
     list-style: none;
     cursor: pointer;
@@ -174,7 +174,7 @@
     top: 30px;
     width: 30px;
     height: 30px;
-    z-index: 11;
+    z-index: 100;
 }
 
 #title_image {
@@ -287,7 +287,122 @@
     font-weight: 200;
 }
 
-#works_title {
+#product_titleImg1 {
+    background-image: url("../img/other/studio.png");
+    width: 293px;
+    height: 639px;
+    position: absolute;
+    top: -1000px;
+    left: 0px;
+    z-index: 20;
+}
+
+#product_contents {
+    //background-color: rgba(50, 90, 200, 0.1);
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    overflow-y: scroll;
+    top: 210px;
+    left: 3000px;
+    z-index: 60;
+}
+#product_contents h1{
+    position: relative;
+    top: -20px;
+    font-size: 30px;
+    color: #96bc62;
+    font-family: 'Poiret One', cursive;
+}
+#product_contents h2{
+    font-size: 43px;
+    color: #4b4b4b;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-weight: 100;
+}
+#product_contents h3{
+    position: relative;
+    top: -40px;
+    font-size: 25px;
+    color: #4b4b4b;
+    font-family: 'Poiret One', cursive;
+    font-weight: 100;
+}
+#product_contents a{
+    position: relative;
+    top: -40px;
+    left: 15px;
+    font-size: 15px;
+    color: #4b4b4b;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-weight: 200;
+}
+
+#product_contentsImg {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    z-index: 60;
+    cursor: pointer;
+}
+#product_contentsImg:hover {
+    opacity: 0.2;
+}
+
+#product_contentsDiscription {
+    position: relative;
+    float: left;
+    width: 250px;
+    height: 250px;
+    background-color: rgb(50, 50, 50);
+    left: 0px;
+    top: 0px;
+    z-index: 60;
+}
+#product_contentsDiscription:hover {
+    //-webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+    //transition: opacity 0.3s, transform 0.3s;
+    //opacity: 0.8;
+}
+#product_contentsDiscription h4{
+    position: absolute;
+    top: -25px;
+    left: 5px;
+    font-size: 20px;
+    color: #ffffff;
+    font-family: 'Noto Sans Japanese', cursive;
+}
+#product_contentsDiscription h5{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 15px;
+    color: #ffffff;
+    font-family: 'Poiret One', cursive;
+}
+
+#product_discriptionPage {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.8);
+    top: 0px;
+    left: 120%;
+    width: 70%;
+    height: 100%;
+    box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.4);
+    z-index: 62;
+}
+#product_discriptionPageClose {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.0);
+    top: 0px;
+    left: 100%;
+    width: 50%;
+    height: 100%;
+    z-index: 61;
+}
+
+#product_title {
     position: absolute;
     font-size: 100px;
     font-family: 'Poiret One', cursive;
