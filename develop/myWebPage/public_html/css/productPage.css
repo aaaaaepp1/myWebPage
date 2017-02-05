@@ -1,0 +1,62 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2017/02/05, 17:27:00
+    Author     : okamotonaoki
+*/
+a {
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+img {
+    width: 90%;
+}
+
+#base {
+    margin-top: 100px;
+    left: 0px;
+    text-align: center;
+}
+#base h1 {
+    position: relative;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
+    font-size: 30px;
+    color: rgba(60, 60, 60, 0.9);
+    font-family: 'Dosis', cursive;
+}
+#base h2 {
+    position: relative;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
+    font-size: 20px;
+    color: rgba(60, 60, 60, 0.9);
+    margin-top: 0px;
+    font-family: 'Dosis', cursive;
+}
+#base h3 {
+    position: relative;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
+    font-size: 15px;
+    margin-top: -15px;
+    color: rgba(60, 60, 60, 0.9);
+    font-family: 'Dosis', cursive;
+}
+#base p{
+    position: relative;
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: left;
+    color: rgba(20, 20, 20, 0.8);
+    font-size: 15px;
+    font-family: 'Sawarabi Mincho';
+}

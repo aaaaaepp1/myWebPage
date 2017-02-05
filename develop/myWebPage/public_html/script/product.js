@@ -33,16 +33,23 @@ ProductImg.prototype.updatePosition = function() {
 
 function product_init() {
     var imgList = [
+        "cgimgs.png",
         "escapevr.png",
-        "macbookair2016.jpg"
+        "macbookair2016.jpg",
+        "cacpromotionvideo.png"
     ];
     
     var imgDiscription = [
+        
+        "3DCG Images",
         "EscapeVR",
-        "MacBookAir"
+        "MacBookAir",
+        "C.A.C. PV"
     ];
     
     var imgYear = [
+        2017,
+        2016,
         2016,
         2016
     ];
@@ -58,17 +65,28 @@ function product_init() {
 //display the imgs
 function product_showImgs() {
     
-    for(var i = 0; i < product_imgs.length; i++) {
+    var tmp_i = [];
+    
+    var i = 0
+    
+    for(i = 0; i < product_imgs.length; i++) {
         var each = product_imgs[i];
-        var img = document.createElement('img');
-        img.src = 'img/productImgs/' + each.getAddr();
-        img.id = "product_contentsImg";
+//        var img = document.createElement('img');
+//        img.src = 'img/productImgs/' + each.getAddr();
+//        img.id = "product_contentsImg";
+//        img.addEventListener('click',  function(){alert(i);});
+        var discriptionPageUri = "html/product/" + each.getAddr() + ".html";
+        var img = '<img onclick="showProductDiscription(true, \'html/product/' + each.getAddr() + '.html\');" src="img/productImgs/' + each.getAddr() + '" id="product_contentsImg">';
         
         var discriptionBack = document.createElement('div');
         discriptionBack.id = "product_contentsDiscription";
-        discriptionBack.appendChild(img);
-        var discriptionPageUrl = 'html/product/' + each.getAddr() + '.html';
-        discriptionBack.addEventListener('click',  function(){showProductDiscription(true, discriptionPageUrl);}, true);
+        //discriptionBack.appendChild(img);
+        discriptionBack.innerHTML = img;
+        //discriptionBack[i].addEventListener('click',  function(){showProductDiscription(true, discriptionPageUri);});
+        tmp_i.push(i);
+        console.log(discriptionPageUri + ", i: " + tmp_i[i]);
+        //discriptionBack.addEventListener('click',  function(){alert(i);});
+        
         
         var discription = document.createElement('h4');
         discription.innerHTML = each.getDiscription();
@@ -81,6 +99,7 @@ function product_showImgs() {
         document.getElementById("product_contents").appendChild(discriptionBack);
         
     }
+    console.log(i);
 }
 
 function product_readjustment() {
