@@ -12,9 +12,18 @@ window.onload = function() {
     fix();
 };
 
+window.onscroll = function() {
+    fix();
+};
+
 function fix() {
+    main_footer_image_fix();
     main_footer_title_fix();
     main_footer_sub_title_fix();
+}
+
+function main_footer_image_fix() {
+    document.getElementById("main_footer_imgae").style.top = window.pageYOffset/2 + "px";
 }
 
 function main_footer_title_fix() {
@@ -45,4 +54,21 @@ function main_menu_add_shadow(bool) {
         if(bool) divs_each.style.boxShadow = "1px 2px 3px rgba(0,0,0,0.9)";
         else divs_each.style.boxShadow = "0px 1px 1px rgba(0,0,0,0.7)";
     }
+}
+
+function main_menu_move(bool) {
+    $("#main_menu_box").stop();
+    
+    var left_position = "";
+    if(bool) {
+        var left_position = "70%";
+    } else {
+        var left_position = "100%";
+    }
+    
+    $("#main_menu_box").animate({
+        left: left_position
+    }, 500, 'easeOutBounce');
+    
+    
 }
